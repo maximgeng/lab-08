@@ -28,7 +28,7 @@
 
    - name: Copy app from build to prod
      synchronize:
-      src: /home/user/temp/target/hello-1.0.war
+      src: /home/user/build/target/hello-1.0.war
       dest: /home/user/
       mode: pull
      delegate_to: 127.0.0.1
