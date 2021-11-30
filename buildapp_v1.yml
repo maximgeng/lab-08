@@ -27,17 +27,12 @@
    - name: Build app
      shell: mvn package chdir="/home/user/build/"
 
-- name: Build
-  hosts: all
-  become: yes
-
-  tasks:
    - name: Copy app from build to prod
      synchronize:
       src: /home/user/build/target/hello-1.0.war
       dest: /home/user/
       mode: pull
-     delegate_to: "{{ [build] }}"
+     delegate_to: "{{ prod }}"
 
 - name: Prod
   hosts: prod
