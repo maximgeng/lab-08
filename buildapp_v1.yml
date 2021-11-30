@@ -5,12 +5,12 @@
 
   tasks:
    - name: Ensure mvn package is present
-     app:
+     apt:
       name: maven
       state: present
 
    - name: Ensure git package is	present
-     app:
+     apt:
       name: git
       state: present
 
@@ -39,7 +39,7 @@
 
   tasks:
    - name: Ensure tomcat package is present
-     app:
+     apt:
       name: tomcat
       state: present
 
