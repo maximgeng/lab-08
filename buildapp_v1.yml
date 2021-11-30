@@ -32,7 +32,7 @@
       src: /home/user/build/target/hello-1.0.war
       dest: /home/user/
       mode: pull
-     delegate_to: srv-03-lab
+     delegate_to: build
 
 - name: Prod
   hosts: prod
