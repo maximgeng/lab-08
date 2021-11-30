@@ -32,7 +32,7 @@
       src: /home/user/build/target/hello-1.0.war
       dest: /home/user/
       mode: push
-     delegate_to: "{{groups['prod']}}"
+     delegate_to:
 
 - name: Prod
   hosts: prod
