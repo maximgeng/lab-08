@@ -24,7 +24,7 @@
       dest: /home/user/build/
 
    - name: Build app
-      shell: mvn package chdir="/home/user/build/"
+     shell: mvn package chdir="/home/user/build/"
 
    - name: Copy app from build to prod
      synchronize:
