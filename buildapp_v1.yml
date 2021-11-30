@@ -40,21 +40,21 @@
 
   tasks:
    - name: Install JAVA related Ubuntu packages
-      apt:
-       name: "{{ packages }}"
-       state: latest
-      vars:
-       packages:
-         - openjdk-8-jdk
-         - tomcat9
-         - tomcat9-examples
-         - tomcat9-docs
+     apt:
+      name: "{{ packages }}"
+      state: latest
+     vars:
+      packages:
+       - openjdk-8-jdk
+       - tomcat9
+       - tomcat9-examples
+       - tomcat9-docs
 
    - name: Make sure a service is running
-      ansible.builtin.systemd:
-       state: started
-       enabled: true
-       name: tomcat9
+     ansible.builtin.systemd:
+      state: started
+      enabled: true
+      name: tomcat9
 
     - name: Copy app to prod
       copy:
