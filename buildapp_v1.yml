@@ -39,23 +39,26 @@
   become: yes
 
   tasks:
-  - name: Install JAVA related Ubuntu packages
-    apt:
-     name: "{{ packages }}"
-     state: latest
-    vars:
-     packages:
-      - openjdk-8-jdk
-      - tomcat9
+   - name: Install OpenJDK
+     apt:
+      name: openjdk-11-jre-headless
 
-  - name: Ensure tomcat service is started
-    service:
-     name: tomcat
-     state: started
-     enabled: yes
+   - name: download tomcat server packages
+     get_url:
+      url: http://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.44/bin/apache-tomcat-9.0.44.tar.gz
+      dest: /usr/local
 
-  - name: Copy app to prod
-    copy:
-     src: /home/user/hello-1.0.war
-     dest: /opt/tomcat/webapps
+   - name: extract tomcat packages
+     unarchive:
+      src: /usr/local/apache-tomcat-9.0.44.tar.gz
+      dest: /usr/local
+      remote_src: yes
+
+   - name: start tomcat services
+     shell: nohup /usr/local/apache-tomcat-9.0.44/bin/startup.sh
+
+   - name: Copy app to prod
+     copy:
+      src: /home/user/hello-1.0.war
+      dest: /opt/tomcat/webapps
 
