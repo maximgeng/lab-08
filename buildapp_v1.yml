@@ -4,53 +4,53 @@
   become: yes
 
   tasks:
-    - name: Ensure mvn package is present
-      app:
-        name: maven
-        state: present
+   - name: Ensure mvn package is present
+     app:
+      name: maven
+      state: present
 
-    - name: Ensure git package is	present
-      app:
-        name: git
-        state: present
+   - name: Ensure git package is	present
+     app:
+      name: git
+      state: present
 
 - name: Build
   hosts: build
 
   tasks:
-    - name: Clone app from git
-      git:
-        repo: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello'
-        dest: /home/user/build/
+   - name: Clone app from git
+     git:
+      repo: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello'
+      dest: /home/user/build/
 
-    - name: Build app
+   - name: Build app
       shell: mvn package chdir="/home/user/build/"
 
-    - name: Copy app from build to prod
-      synchronize:
-        src: /home/user/temp/target/hello-1.0.war
-        dest: /home/user/
-        mode: pull
-      delegate_to: 127.0.0.1
+   - name: Copy app from build to prod
+     synchronize:
+      src: /home/user/temp/target/hello-1.0.war
+      dest: /home/user/
+      mode: pull
+     delegate_to: 127.0.0.1
 
 - name: Prod
   hosts: prod
   become: yes
 
   tasks:
-    - name: Ensure tomcat package is present
-      app:
-        name: tomcat
-        state: present
+   - name: Ensure tomcat package is present
+     app:
+      name: tomcat
+      state: present
 
   tasks:
     - name: Ensure tomcat service is started
       service:
-        name: tomcat
-        state: started
+       name: tomcat
+       state: started
 
     - name: Ensure copy app
       copy:
-        src: /home/user/hello-1.0.war
-        dest: /opt/tomcat/webapps
+       src: /home/user/hello-1.0.war
+       dest: /opt/tomcat/webapps
 
