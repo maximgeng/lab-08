@@ -30,7 +30,7 @@
      synchronize:
       src: /home/user/build/target/hello-1.0.war
       dest: /home/user/
-      mode: pull
+      mode: push
      delegate_to: 127.0.0.1
 
 - name: Prod
