@@ -60,5 +60,5 @@
    - name: Copy app to prod
      copy:
       src: /home/user/hello-1.0.war
-      dest: /opt/tomcat/webapps
+      dest: /usr/local/apache-tomcat-9.0.55/webapps
 
