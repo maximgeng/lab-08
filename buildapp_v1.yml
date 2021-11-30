@@ -51,6 +51,6 @@
 
     - name: Ensure copy app
       copy:
-        src: hello-1.0.war
+        src: /home/user/hello-1.0.war
         dest: /opt/tomcat/webapps
 ---
