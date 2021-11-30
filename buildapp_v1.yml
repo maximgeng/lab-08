@@ -45,7 +45,7 @@
 
    - name: download tomcat server packages
      get_url:
-      url: http://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.44/bin/apache-tomcat-9.0.44.tar.gz
+      url: http://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.55/bin/apache-tomcat-9.0.55.tar.gz
       dest: /usr/local
 
    - name: extract tomcat packages
