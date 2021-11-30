@@ -56,8 +56,8 @@
       enabled: true
       name: tomcat9
 
-    - name: Copy app to prod
-      copy:
-       src: /home/user/hello-1.0.war
-       dest: /opt/tomcat/webapps
+   - name: Copy app to prod
+     copy:
+      src: /home/user/hello-1.0.war
+      dest: /opt/tomcat/webapps
 
