@@ -31,7 +31,7 @@
      synchronize:
       src: /home/user/build/target/hello-1.0.war
       dest: /home/user/
-      mode: push
+      mode: pull
      delegate_to: "{{groups['prod'][1]}}"
 
 - name: Prod
