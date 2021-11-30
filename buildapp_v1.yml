@@ -27,18 +27,17 @@
    - name: Build app
      shell: mvn package chdir="/home/user/build/"
 
-- name: Prod
-  hosts: prod
-  become: yes
-
-  tasks:
    - name: Copy app from build to prod
      synchronize:
       src: /home/user/build/target/hello-1.0.war
       dest: /home/user/
-      mode: pull
-     delegate_to: "{{ prodinventory_hostname }}"
-     
+      mode: push
+     delegate_to: "{{groups['prod']}}"
+
+- name: Prod
+  hosts: prod
+  become: yes
+
   tasks:
    - name: Ensure tomcat package is present
      apt:
