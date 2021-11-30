@@ -27,7 +27,7 @@
    - name: Build app
      shell: mvn package chdir="/home/user/build/"
 
-   - name: Copy app from build to prod
+   - name: Copy app from build
      synchronize:
       src: /home/user/build/target/hello-1.0.war
       dest: /home/user/
@@ -39,18 +39,24 @@
   become: yes
 
   tasks:
-   - name: Ensure tomcat package is present
-     apt:
-      name: tomcat
-      state: present
+   - name: Install JAVA related Ubuntu packages
+      apt:
+        name: "{{ packages }}"
+        state: latest
+      vars:
+        packages:
+          - openjdk-8-jdk
+          - tomcat9
+          - tomcat9-examples
+          - tomcat9-docs
 
-  tasks:
-    - name: Ensure tomcat service is started
-      service:
-       name: tomcat
-       state: started
+   - name: Make sure a service is running
+      ansible.builtin.systemd:
+        state: started
+        enabled: true
+        name: tomcat9
 
-    - name: Ensure copy app
+    - name: Copy app to prod
       copy:
        src: /home/user/hello-1.0.war
        dest: /opt/tomcat/webapps
