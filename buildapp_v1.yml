@@ -43,19 +43,16 @@
      apt:
       name: openjdk-11-jre-headless
 
-   - name: download tomcat server packages
-     get_url:
-      url: https://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.55/bin/apache-tomcat-9.0.55.tar.gz
-      dest: /usr/local
+   - name: Install Tomcat
+     apt:
+      name: tomcat9
 
-   - name: extract tomcat packages
-     unarchive:
-      src: /usr/local/apache-tomcat-9.0.55.tar.gz
-      dest: /usr/local
-      remote_src: yes
-
-   - name: start tomcat services
-     shell: nohup /usr/local/apache-tomcat-9.0.55/bin/startup.sh
+   - name: Enable Tomcat startup 
+      systemd:
+      name: tomcat
+      enabled: yes
+      state: restarted
+      become: true
 
    - name: Copy app to prod
      copy:
