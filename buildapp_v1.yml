@@ -30,7 +30,7 @@
 - name: Prod
   hosts: prod
   become: yes
-  
+
   tasks:
    - name: Copy app from build to prod
      synchronize:
@@ -38,7 +38,6 @@
       dest: /home/user/
      delegate_to: 10.8.6.83
 
-  tasks:
    - name: Ensure tomcat package is present
      apt:
       name: tomcat
