@@ -16,6 +16,7 @@
 
 - name: Build
   hosts: build
+  become: yes
 
   tasks:
    - name: Clone app from git
@@ -26,17 +27,16 @@
    - name: Build app
      shell: mvn package chdir="/home/user/build/"
 
-- name: Prod
-  hosts: prod
-  become: yes
-
-  tasks:
    - name: Copy app from build to prod
      synchronize:
       src: /home/user/build/target/hello-1.0.war
       dest: /home/user/
       mode: pull
-     delegate_to: 127.0.0.1
+     delegate_to: 10.8.5.65
+
+- name: Prod
+  hosts: prod
+  become: yes
 
   tasks:
    - name: Ensure tomcat package is present
