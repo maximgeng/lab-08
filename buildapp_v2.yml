@@ -1,0 +1,149 @@
+---
+- name: stage
+  hosts: stage
+  become: yes
+
+  tasks:
+  - name: Ensure git package is present
+    apt:
+      name: git
+      state: present
+
+  - name: Ensure git service is started
+    service:
+      name: git
+      state: started
+
+  - name: Ensure docker package is present
+    apt:
+      name: docker.io
+      state: present
+
+  - name: Ensure docker service is started
+    service:
+      name: docker
+      state: started
+
+  - name: Install docker-compose
+    get_url: 
+      url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+      dest: /usr/local/bin/docker-compose
+      mode: 'u+x,g+x'
+
+  - name: Clone a github repository
+    git:
+      repo: https://github.com/maximgeng/prod.git
+      dest: /home/user
+      clone: yes
+      update: yes
+
+  - name: Docker compose
+    command: docker-compose -f docker_compose.yml up -d
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- name: install docker-composer
+  hosts: stage_prod
+  become: yes
+
+  tasks:
+  - name: Ensure docker.io package is present
+    apt:
+      name: docker.io
+      state: present
+
+  - name: Ensure docker service is started
+    service:
+      name: docker
+      state: started
+
+
+
+
+
+
+
+
+- name: pull latest changes
+     shell: git pull 
+     args:
+       chdir: "{{ item.path }}"
+       executable: /bin/bash
+     with_items: "{{ found_directories.files }}"
+
+
+---
+- hosts: stage
+  vars:
+   git_url: 'git@github.com:willtome/ansible-git.git'
+   git_key: "{{ lookup('file','./id_rsa') }}"
+
+  tasks:
+  - name: git pull
+    include_role:
+      name: ansible-git
+      tasks_from: pull
+
+  - name: create file in repo
+    copy:
+      dest: ansible-git/time.yml
+      content: "{{ ansible_date_time | to_nice_yaml}}"
+
+  - name: git push
+    include_role:
+      name: ansible-git
+      tasks_from: push     
+
+
+
+
+
+- name: stage
+   hosts: prod
+
+   tasks:
+   - name: Clone a github repository
+     git:
+       repo: https://github.com/maximgeng/prod.git
+       dest: /home/user
+       clone: yes
+       update: yes
+
+   - name: Docker compose
+     command: docker-compose -f docker_compose.yml up -d
+
+
+- name: prod
+   hosts: prod
+
+   tasks:
+   - name: Clone a github repository
+     git:
+       repo: https://github.com/maximgeng/prod.git
+       dest: /home/user
+       clone: yes
+       update: yes
+
+   - name: Docker compose
+     command: docker-compose -f docker_compose.yml up -d
+
+   
+
+
+
+
